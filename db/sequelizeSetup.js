@@ -12,15 +12,15 @@ sequelize.authenticate()
 .catch((error)=>{console.log(`impossible de se connecter à la base de donnée`, error)})
 
 
-const programmeModel = require('../models/programmeModel')
-const userModel = require('../models/userModel')
-const dateModel = require('../models/dateModel')
-const heureModel = require('../models/heureModel')
-const reservationModel = require('../models/reservationModel')
-const roleModel = require('../models/roleModel')
+const programmeModel = require('../models/ProgrammeModel')
+const userModel = require('../models/UserModel')
+const dateModel = require('../models/DateModel')
+const heureModel = require('../models/HeureModel')
+const reservationModel = require('../models/ReservationModel')
+const roleModel = require('../models/RoleModel')
 
-const festivalModel = require('../models/festivalModel')
-const legalModel = require('../models/legalModel')
+const festivalModel = require('../models/FestivalModel')
+const legalModel = require('../models/LegalModel')
 
 const Programme = programmeModel(sequelize, DataTypes)
 const User = userModel(sequelize, DataTypes)
@@ -46,14 +46,20 @@ Programme.belongsTo(Heure)
 
 
 
-const { setCategories, setUsers, setRoles} = require('./dataSample')
+const { setUser, setRoles, setReservation, setProgramme, setLegal, setHeure, setFestival, setDate } = require('./dataSample')
 
-sequelize.sync({force : false})
-.then(()=>{
-    // setRoles(Role)
-    // setUsers(User)
-    // setCategories(Category)
+sequelize.sync({force : true})
+.then(async()=>{
+    await setRoles(Role)
+    await setUser(User)
+    await setDate(Date)
+    await setHeure(Heure)
+    await setReservation(Reservation)
+    await setProgramme(Programme)
+
+    await setFestival(Festival)
+    await setLegal(Legal)
 })
-.catch(()=>{console.log(`il y a une erruer`)})
+.catch((error)=>{console.log(`il y a une erruer`, error.message)})
 
 module.exports =  { sequelize, Programme, User, Date, Heure, Reservation, Role, Festival, Legal }
