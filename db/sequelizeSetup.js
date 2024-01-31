@@ -38,8 +38,8 @@ User.belongsTo(Role)
 Date.hasMany(Programme)
 Programme.belongsTo(Date)
 
-Date.hasMany(Reservation)
-Reservation.belongsTo(Date)
+Date.belongsToMany(Reservation, {through : 'DateReservations'})
+Reservation.belongsToMany(Date, {through : 'DateReservations'})
 
 Heure.hasMany(Programme)
 Programme.belongsTo(Heure)
@@ -54,7 +54,7 @@ sequelize.sync({force : true})
     await setUser(User)
     await setDate(Date)
     await setHeure(Heure)
-    await setReservation(Reservation)
+    await setReservation(Reservation, Date);
     await setProgramme(Programme)
 
     await setFestival(Festival)

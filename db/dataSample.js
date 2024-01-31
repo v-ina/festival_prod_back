@@ -53,7 +53,8 @@ const setHeure = (Heure) => {
     ])
 }
 
-const setReservation = (Reservation) => {
+/*
+const setReservation = (Reservation, Date) => {
     return Promise.all([
         reservations.map(element => {
             const newReservation = {...element}
@@ -63,6 +64,32 @@ const setReservation = (Reservation) => {
         })
     ])
 }
+*/
+
+const setReservation = async (Reservation, Date) => {
+    
+    for (const element of reservations) {
+      try {
+        // 새 Reservation 인스턴스 생성
+        const newReservation = await Reservation.create({
+          nom: element.nom,
+          prenom: element.prenom,
+          email: element.email
+        })
+
+        for (const dateId of element.DateId) {
+          const date = await Date.findByPk(dateId);
+          if (date) {
+            await newReservation.addDate(date);
+          } else {
+            console.log(`Date with id ${dateId} not found`);
+          }
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
 
 const setLegal = (Legal) => {
     return Promise.all([

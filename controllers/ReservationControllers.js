@@ -4,7 +4,7 @@ const { ValidationError, UniqueConstraintError } = require('sequelize')
 
 
 const findAllReservations = (req, res) => {
-    Reservation.findAll()
+    Reservation.findAll({include : Date })
     .then((result)=>{ res.json({message : `il y a ${result.length} Reservations`, data : result}) })
     .catch((error)=>{ res.status(500).json({message : `il y a une erreur`, error : error.message})})
 }
