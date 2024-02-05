@@ -1,7 +1,13 @@
 module.exports=(sequlize, DataTypes)=>{
-    return sequlize.define('Reservation', {
+    const Reservation = sequlize.define('Reservation', {
         nom:{ type: DataTypes.STRING },
         prenom:{ type: DataTypes.STRING },
         email:{ type: DataTypes.STRING }
     },{updatedAt : false})
+
+    Reservation.associate = function(models) {
+        Reservation.belongsToMany(models.Date, { through: 'datereservations', foreignKey: 'ReservationId', otherKey: 'DateId' });
+      };
+    
+      return Reservation;
 }

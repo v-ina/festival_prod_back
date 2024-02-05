@@ -5,6 +5,8 @@ const port = 4000
 const cors = require('cors')
 const { sequelize } = require('./db/sequelizeSetup')
 
+const db = sequelize.sequelize
+
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
@@ -17,6 +19,8 @@ const LegalRouter = require('./routes/LegalRoutes')
 const ProgrammeRouter = require('./routes/ProgrammeRoutes')
 const ReservationRouter = require('./routes/ReservationRoutes')
 const UserRouter = require('./routes/UserRoutes')
+
+const DateReservationRouter = require('./routes/DateReservationsRoute')
 
 
 app.use('/api/dates' , DateRouter)
